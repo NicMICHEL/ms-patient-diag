@@ -51,7 +51,7 @@ services:
     image: "mysql:8.0"
     volumes:
       - ./data/mysqldb_data:/var/lib/mysql
-      - ./patient/src/main/resources:/docker-entrypoint-initdb.d
+      - ./data/docker-entrypoint-initdb.d/Patient.sql:/docker-entrypoint-initdb.d/Patient.sql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootrootA.1
@@ -60,8 +60,8 @@ services:
 
   eureka-server:
     build:
-      context: ./eureka-server
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: Dockerfile-eureka-server
     container_name: eureka-server
     restart: on-failure
     environment:
@@ -70,8 +70,8 @@ services:
 
   gateway:
     build:
-      context: ./gateway
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: Dockerfile-gateway
     container_name: gateway
     restart: on-failure
     environment:
@@ -90,8 +90,8 @@ services:
 
   front:
     build:
-      context: ./front-ms
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: Dockerfile-front-ms
     container_name: front
     restart: on-failure
     network_mode: "service:localhost"
@@ -108,8 +108,8 @@ services:
 
   patient:
     build:
-      context: ./patient-ms
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: Dockerfile-patient-ms
     container_name: patient
     restart: on-failure
     network_mode: "service:localhost"
@@ -124,8 +124,8 @@ services:
 
   notes:
     build:
-      context: ./notes-ms
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: Dockerfile-notes-ms
     container_name: notes
     restart: on-failure
     network_mode: "service:localhost"
@@ -141,8 +141,8 @@ services:
 
   risk:
     build:
-      context: ./risk-ms
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: Dockerfile-risk-ms
     container_name: risk
     restart: on-failure
     network_mode: "service:localhost"
