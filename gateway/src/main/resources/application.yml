@@ -1,0 +1,39 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: patientFile_route
+          uri: http://localhost:${patientMSPort}
+          predicates:
+            - Path=/patientFile/**
+        - id: patientNote_route
+          uri: http://localhost:${notesMSPort}
+          predicates:
+            - Path=/patientNote/**
+        - id: patientRisk_route
+          uri: http://localhost:${riskMSPort}
+          predicates:
+            - Path=/patientRisk/**
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: '10'
+    lease-expiration-duration-in-seconds: '30'
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:${eurekaMSPort}/eureka/
+server:
+  port: ${gatewayMSPort}
+
+# environment variables
+eurekaMSPort: '9102'
+gatewayMSPort: '9004'
+patientMSPort: '9001'
+riskMSPort: '9006'
+notesMSPort: '9005'
