@@ -17,8 +17,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Value("${clientMSPort}")
-    private String clientMSPort;
+    @Value("${frontMSPort}")
+    private String frontMSPort;
 
     @Bean
     SecurityFilterChain clientSecurityFilterChain(
@@ -28,7 +28,7 @@ public class SecurityConfig {
         http.logout((logout) -> {
             var logoutSuccessHandler =
                     new OidcClientInitiatedLogoutSuccessHandler(clientRegistrationRepository);
-            logoutSuccessHandler.setPostLogoutRedirectUri("http://localhost:" + clientMSPort + "/client/");
+            logoutSuccessHandler.setPostLogoutRedirectUri("http://localhost:" + frontMSPort + "/client/");
             logout.logoutSuccessHandler(logoutSuccessHandler);
         });
         http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
